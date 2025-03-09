@@ -23,10 +23,19 @@ app.use(express.static("public"));
 // Connect to MongoDB
 mongoose
   .connect(
-    process.env.MONGODB_URI || "mongodb://localhost:27017/social-media-app"
+    process.env.MONGODB_URI || "mongodb://localhost:27017/social-media-app",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
   )
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
+
+// Just to check port in showing something
+app.get("/", (req, res) => {
+  res.json({ message: "MERN Backend Deployed on Render!" });
+});
 
 // API Routes
 app.use("/api/auth", authRoutes);
