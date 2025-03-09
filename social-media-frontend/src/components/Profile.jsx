@@ -82,7 +82,7 @@ function Profile({ isAuthenticated, currentUser }) {
         <img
           src={
             profile.avatar
-              ? `https://codealpha-social-media-platform.onrender.com/5000${profile.avatar}`
+              ? `https://codealpha-social-media-platform.onrender.com${profile.avatar}`
               : "/default-avatar.png"
           }
           alt={profile.username}
