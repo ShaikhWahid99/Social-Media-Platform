@@ -28,6 +28,11 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
+// Just to check port in showing something
+app.get("/", (req, res) => {
+  res.json({ message: "MERN Backend Deployed on Render!" });
+});
+
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
