@@ -20,13 +20,16 @@ function Login({ setIsAuthenticated, setUser }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
+    fetch(
+      "https://codealpha-social-media-platform.onrender.com/api/auth/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {

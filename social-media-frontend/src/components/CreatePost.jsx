@@ -31,7 +31,7 @@ function CreatePost({ user, isAuthenticated }) {
       image: image || null,
     };
 
-    fetch("http://localhost:5000/api/posts", {
+    fetch("https://codealpha-social-media-platform.onrender.com/api/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

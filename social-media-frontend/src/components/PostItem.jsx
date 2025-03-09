@@ -15,13 +15,16 @@ function PostItem({ post, isAuthenticated, currentUser }) {
     }
 
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:5000/api/posts/${post._id}/like`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://codealpha-social-media-platform.onrender.com/api/posts/${post._id}/like`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setLikes(data.likes);

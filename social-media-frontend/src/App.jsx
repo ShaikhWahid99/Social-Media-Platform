@@ -17,12 +17,15 @@ function App() {
     // Check if token exists in localStorage
     const token = localStorage.getItem("token");
     if (token) {
-      fetch("http://localhost:5000/api/auth/validate", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      fetch(
+        "https://codealpha-social-media-platform.onrender.com/api/auth/validate",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           if (data.valid) {

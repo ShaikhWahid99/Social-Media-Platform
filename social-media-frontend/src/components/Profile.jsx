@@ -12,7 +12,9 @@ function Profile({ isAuthenticated, currentUser }) {
 
   useEffect(() => {
     // Fetch profile data
-    fetch(`http://localhost:5000/api/users/${id}`)
+    fetch(
+      `https://codealpha-social-media-platform.onrender.com/api/users/${id}`
+    )
       .then((response) => response.json())
       .then((data) => {
         setProfile(data);
@@ -23,7 +25,9 @@ function Profile({ isAuthenticated, currentUser }) {
         }
 
         // Fetch user's posts
-        return fetch(`http://localhost:5000/api/posts/user/${id}`);
+        return fetch(
+          `https://codealpha-social-media-platform.onrender.com/api/posts/user/${id}`
+        );
       })
       .then((response) => response.json())
       .then((data) => {
@@ -43,13 +47,16 @@ function Profile({ isAuthenticated, currentUser }) {
     }
 
     const token = localStorage.getItem("token");
-    fetch(`http://localhost:5000/api/users/${id}/follow`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://codealpha-social-media-platform.onrender.com/api/users/${id}/follow`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setIsFollowing(!isFollowing);

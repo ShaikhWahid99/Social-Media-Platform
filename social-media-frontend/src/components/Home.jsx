@@ -9,7 +9,7 @@ function Home({ isAuthenticated, user }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/posts")
+    fetch("https://codealpha-social-media-platform.onrender.com/api/posts")
       .then((response) => response.json())
       .then((data) => {
         setPosts(data);
