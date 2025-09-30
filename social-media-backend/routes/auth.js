@@ -1,4 +1,3 @@
-// routes/auth.js - Authentication routes
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
@@ -6,12 +5,10 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-// Register a new user
 router.post("/signup", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Check if user already exists
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ error: "User already exists" });
@@ -22,7 +19,6 @@ router.post("/signup", async (req, res) => {
       return res.status(400).json({ error: "Username already taken" });
     }
 
-    // Create new user
     user = new User({
       username,
       email,
@@ -31,7 +27,6 @@ router.post("/signup", async (req, res) => {
 
     await user.save();
 
-    // Generate JWT
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET || "socialmediasecret",
@@ -55,24 +50,20 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// Login user
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
 
-    // Check password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
 
-    // Generate JWT
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET || "socialmediasecret",
@@ -96,7 +87,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Validate token and get user data
 router.get("/validate", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");

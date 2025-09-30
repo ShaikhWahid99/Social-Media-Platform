@@ -1,4 +1,3 @@
-// components/SignUp.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +21,6 @@ function SignUp({ setIsAuthenticated, setUser }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;

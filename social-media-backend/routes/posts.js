@@ -1,4 +1,3 @@
-// routes/posts.js - Post routes
 const express = require("express");
 const Post = require("../models/Post");
 const User = require("../models/User");
@@ -6,7 +5,6 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-// Get all posts (feed)
 router.get("/", async (req, res) => {
   try {
     const posts = await Post.find()
@@ -21,7 +19,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get posts by user ID
 router.get("/user/:userId", async (req, res) => {
   try {
     const posts = await Post.find({ author: req.params.userId })
@@ -39,7 +36,6 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
-// Get post by ID
 router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
@@ -60,7 +56,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create a post
 router.post("/", auth, async (req, res) => {
   try {
     const { content, image } = req.body;
@@ -83,7 +78,6 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// Update a post
 router.put("/:id", auth, async (req, res) => {
   try {
     const { content, image } = req.body;
@@ -94,12 +88,10 @@ router.put("/:id", auth, async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    // Check user authorization
     if (post.author.toString() !== req.user.id) {
       return res.status(401).json({ error: "Not authorized" });
     }
 
-    // Update fields
     post.content = content;
     if (image !== undefined) post.image = image;
 
@@ -119,7 +111,6 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// Delete a post
 router.delete("/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -128,7 +119,6 @@ router.delete("/:id", auth, async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    // Check user authorization
     if (post.author.toString() !== req.user.id) {
       return res.status(401).json({ error: "Not authorized" });
     }
@@ -145,7 +135,6 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-// Like / Unlike a post
 router.post("/:id/like", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -154,14 +143,11 @@ router.post("/:id/like", auth, async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    // Check if the post has already been liked by this user
     const alreadyLiked = post.likes.some((id) => id.toString() === req.user.id);
 
     if (alreadyLiked) {
-      // Unlike
       post.likes = post.likes.filter((id) => id.toString() !== req.user.id);
     } else {
-      // Like
       post.likes.push(req.user.id);
     }
 
@@ -177,7 +163,6 @@ router.post("/:id/like", auth, async (req, res) => {
   }
 });
 
-// Add a comment to a post
 router.post("/:id/comment", auth, async (req, res) => {
   try {
     const { content } = req.body;
@@ -212,7 +197,6 @@ router.post("/:id/comment", auth, async (req, res) => {
   }
 });
 
-// Delete a comment
 router.delete("/:id/comment/:commentId", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -221,7 +205,6 @@ router.delete("/:id/comment/:commentId", auth, async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    // Pull out comment
     const comment = post.comments.find(
       (comment) => comment._id.toString() === req.params.commentId
     );
@@ -230,7 +213,6 @@ router.delete("/:id/comment/:commentId", auth, async (req, res) => {
       return res.status(404).json({ error: "Comment not found" });
     }
 
-    // Check user authorization
     if (
       comment.author.toString() !== req.user.id &&
       post.author.toString() !== req.user.id
@@ -238,7 +220,6 @@ router.delete("/:id/comment/:commentId", auth, async (req, res) => {
       return res.status(401).json({ error: "Not authorized" });
     }
 
-    // Remove comment
     post.comments = post.comments.filter(
       (comment) => comment._id.toString() !== req.params.commentId
     );

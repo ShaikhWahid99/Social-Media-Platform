@@ -1,4 +1,3 @@
-// models/User.js - User model schema
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
@@ -48,7 +47,6 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// Hash password before saving
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
@@ -61,7 +59,6 @@ UserSchema.pre("save", async function (next) {
   }
 });
 
-// Method to compare passwords
 UserSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };

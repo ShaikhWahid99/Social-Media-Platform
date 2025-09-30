@@ -1,11 +1,9 @@
-// routes/users.js - User routes
 const express = require("express");
 const User = require("../models/User");
 const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-// Get user by ID
 router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -27,7 +25,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update user profile
 router.put("/profile", auth, async (req, res) => {
   try {
     const { bio, avatar } = req.body;
@@ -49,7 +46,6 @@ router.put("/profile", auth, async (req, res) => {
   }
 });
 
-// Follow / Unfollow a user
 router.post("/:id/follow", auth, async (req, res) => {
   try {
     if (req.params.id === req.user.id) {
@@ -68,7 +64,6 @@ router.post("/:id/follow", auth, async (req, res) => {
     );
 
     if (isFollowing) {
-      // Unfollow
       user.following = user.following.filter(
         (id) => id.toString() !== req.params.id
       );
@@ -76,7 +71,6 @@ router.post("/:id/follow", auth, async (req, res) => {
         (id) => id.toString() !== req.user.id
       );
     } else {
-      // Follow
       user.following.push(req.params.id);
       targetUser.followers.push(req.user.id);
     }

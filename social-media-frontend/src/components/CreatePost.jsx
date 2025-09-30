@@ -1,4 +1,3 @@
-// components/CreatePost.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +7,6 @@ function CreatePost({ user, isAuthenticated }) {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Redirect if not authenticated
   if (!isAuthenticated) {
     navigate("/login");
     return null;
@@ -24,8 +22,6 @@ function CreatePost({ user, isAuthenticated }) {
 
     const token = localStorage.getItem("token");
 
-    // In a real app, you'd use FormData to handle file uploads
-    // This is simplified for demonstration
     const postData = {
       content,
       image: image || null,

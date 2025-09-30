@@ -1,4 +1,3 @@
-// components/Profile.js
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PostItem from "./PostItem";
@@ -11,7 +10,6 @@ function Profile({ isAuthenticated, currentUser }) {
   const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
-    // Fetch profile data
     fetch(
       `https://codealpha-social-media-platform.onrender.com/api/users/${id}`
     )
@@ -19,12 +17,10 @@ function Profile({ isAuthenticated, currentUser }) {
       .then((data) => {
         setProfile(data);
 
-        // Check if current user is following this profile
         if (isAuthenticated && currentUser) {
           setIsFollowing(currentUser.following.includes(id));
         }
 
-        // Fetch user's posts
         return fetch(
           `https://codealpha-social-media-platform.onrender.com/api/posts/user/${id}`
         );

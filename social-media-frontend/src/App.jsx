@@ -1,4 +1,3 @@
-// App.js - Main React component
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
@@ -14,7 +13,6 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Check if token exists in localStorage
     const token = localStorage.getItem("token");
     if (token) {
       fetch(
