@@ -12,9 +12,7 @@ function PostDetails({ isAuthenticated, user }) {
   const [hasLiked, setHasLiked] = useState(false);
 
   useEffect(() => {
-    fetch(
-      `https://codealpha-social-media-platform.onrender.com/api/posts/${id}`
-    )
+    fetch(`${import.meta.env.VITE_API_URL}/posts/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setPost(data);
@@ -38,15 +36,12 @@ function PostDetails({ isAuthenticated, user }) {
     }
 
     const token = localStorage.getItem("token");
-    fetch(
-      `https://codealpha-social-media-platform.onrender.com/api/posts/${id}/like`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    fetch(`${import.meta.env.VITE_API_URL}/posts/${id}/like`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         setLikes(data.likes);
@@ -70,17 +65,14 @@ function PostDetails({ isAuthenticated, user }) {
     }
 
     const token = localStorage.getItem("token");
-    fetch(
-      `https://codealpha-social-media-platform.onrender.com/api/posts/${id}/comment`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ content: comment }),
-      }
-    )
+    fetch(`${import.meta.env.VITE_API_URL}/posts/${id}/comment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ content: comment }),
+    })
       .then((response) => response.json())
       .then((data) => {
         setPost({

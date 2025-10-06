@@ -8,7 +8,7 @@ function Home({ isAuthenticated, user }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://codealpha-social-media-platform.onrender.com/api/posts")
+    fetch(`${import.meta.env.VITE_API_URL}/posts`)
       .then((response) => response.json())
       .then((data) => {
         setPosts(data);

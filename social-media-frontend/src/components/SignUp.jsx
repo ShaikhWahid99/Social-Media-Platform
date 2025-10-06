@@ -9,6 +9,7 @@ function SignUp({ setIsAuthenticated, setUser }) {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,26 +21,26 @@ function SignUp({ setIsAuthenticated, setUser }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
 
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;
     }
 
-    fetch(
-      "https://codealpha-social-media-platform.onrender.com/api/auth/signup",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        }),
-      }
-    )
+    setIsLoading(true);
+
+    fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
@@ -54,6 +55,9 @@ function SignUp({ setIsAuthenticated, setUser }) {
       .catch((error) => {
         console.error("Error signing up:", error);
         setError("An error occurred during sign up");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -108,8 +112,12 @@ function SignUp({ setIsAuthenticated, setUser }) {
             minLength="6"
           />
         </div>
-        <button type="submit" className="auth-button">
-          Sign Up
+        <button type="submit" className="auth-button" disabled={isLoading}>
+          {isLoading ? (
+            <span className="loading-dots">Loading</span>
+          ) : (
+            "Sign Up"
+          )}
         </button>
       </form>
     </div>

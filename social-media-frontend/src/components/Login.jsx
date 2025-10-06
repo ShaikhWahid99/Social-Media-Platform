@@ -7,6 +7,7 @@ function Login({ setIsAuthenticated, setUser }) {
     password: "",
   });
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,17 +19,16 @@ function Login({ setIsAuthenticated, setUser }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
-    fetch(
-      "https://codealpha-social-media-platform.onrender.com/api/auth/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }
-    )
+    fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
@@ -43,6 +43,9 @@ function Login({ setIsAuthenticated, setUser }) {
       .catch((error) => {
         console.error("Error logging in:", error);
         setError("An error occurred during login");
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -73,8 +76,12 @@ function Login({ setIsAuthenticated, setUser }) {
             required
           />
         </div>
-        <button type="submit" className="auth-button">
-          Login
+        <button type="submit" className="auth-button" disabled={isLoading}>
+          {isLoading ? (
+            <span className="loading-dots">Loading</span>
+          ) : (
+            "Login"
+          )}
         </button>
       </form>
     </div>

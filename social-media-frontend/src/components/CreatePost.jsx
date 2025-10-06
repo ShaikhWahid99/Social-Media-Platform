@@ -27,7 +27,7 @@ function CreatePost({ user, isAuthenticated }) {
       image: image || null,
     };
 
-    fetch("https://codealpha-social-media-platform.onrender.com/api/posts", {
+    fetch(`${import.meta.env.VITE_API_URL}/posts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

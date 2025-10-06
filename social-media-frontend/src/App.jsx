@@ -15,15 +15,12 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch(
-        "https://codealpha-social-media-platform.onrender.com/api/auth/validate",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      fetch(`${import.meta.env.VITE_API_URL}/auth/validate`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
         .then((response) => response.json())
         .then((data) => {
           if (data.valid) {

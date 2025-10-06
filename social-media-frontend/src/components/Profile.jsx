@@ -10,9 +10,7 @@ function Profile({ isAuthenticated, currentUser }) {
   const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
-    fetch(
-      `https://codealpha-social-media-platform.onrender.com/api/users/${id}`
-    )
+    fetch(`${import.meta.env.VITE_API_URL}/users/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setProfile(data);
@@ -21,9 +19,7 @@ function Profile({ isAuthenticated, currentUser }) {
           setIsFollowing(currentUser.following.includes(id));
         }
 
-        return fetch(
-          `https://codealpha-social-media-platform.onrender.com/api/posts/user/${id}`
-        );
+        return fetch(`${import.meta.env.VITE_API_URL}/posts/user/${id}`);
       })
       .then((response) => response.json())
       .then((data) => {
@@ -43,16 +39,13 @@ function Profile({ isAuthenticated, currentUser }) {
     }
 
     const token = localStorage.getItem("token");
-    fetch(
-      `https://codealpha-social-media-platform.onrender.com/api/users/${id}/follow`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    fetch(`${import.meta.env.VITE_API_URL}/users/${id}/follow`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         setIsFollowing(!isFollowing);
@@ -76,11 +69,7 @@ function Profile({ isAuthenticated, currentUser }) {
     <div className="profile">
       <div className="profile-header">
         <img
-          src={
-            profile.avatar
-              ? `https://codealpha-social-media-platform.onrender.com${profile.avatar}`
-              : "/default-avatar.png"
-          }
+          src={profile.avatar ? `${profile.avatar}` : "/default-avatar.png"}
           alt={profile.username}
           className="avatar-large"
         />
